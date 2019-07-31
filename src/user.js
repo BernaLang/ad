@@ -38,7 +38,8 @@ module.exports = {
         email,
         title,
         phone,
-        location
+        location,
+        objectClass
       } = opts;
 
       let { passwordExpires, enabled } = opts;
@@ -61,13 +62,21 @@ module.exports = {
         email && String(email).indexOf('@') === -1
           ? 'Invalid email address.'
           : !commonName
-            ? 'A commonName is required.'
-            : !userName ? 'A userName is required.' : true;
+          ? 'A commonName is required.'
+          : !userName
+          ? 'A userName is required.'
+          : true;
 
       if (valid !== true) {
         /* istanbul ignore next */
         return reject({ error: true, message: valid, httpStatus: 400 });
       }
+
+      // Verify user object class
+      let userClass =
+        objectClass !== null
+          ? objectClass
+          : this.config.defaults.userObjectClass;
 
       const userObject = {
         cn: commonName,
@@ -79,8 +88,9 @@ module.exports = {
         telephone: phone,
         userPrincipalName: `${userName}@${this.config.domain}`,
         sAMAccountName: userName,
-        objectClass: this.config.defaults.userObjectClass,
-        userPassword: ssha.create(password)
+        objectClass: userClass,
+        userPassword: ssha.create(password),
+        userAccountControl: 512
       };
 
       this._addObject(`CN=${commonName}`, location, userObject)
@@ -125,6 +135,27 @@ module.exports = {
             httpStatus: 503
           });
         });
+    });
+  },
+
+  async changeExpiryDate(userName, expiresIn) {
+    return new Promise((resolve, reject) => {
+      const domain = this.config.domain;
+      let expireDate;
+      if (expiresIn === false) {
+        expireDate = -1;
+      } else {
+        expireDate = api.convertDateToAD(expiresIn);
+      }
+      this._userReplaceOperation(userName, { accountExpires: expireDate }).then(
+        res => {
+          delete this._cache.users[userName];
+          resolve(res);
+        },
+        err => {
+          reject(err);
+        }
+      );
     });
   },
 

@@ -119,8 +119,9 @@ ad.user(userName).enable()
 ad.user(userName).disable()
 ad.user(userName).move(location)
 ad.user(userName).unlock()
-ad.user(userName).remove()
 ad.user(userName).location()
+ad.user(userName).remove()
+ad.user(userName).accountExpiresIn(expireDate)
 
 ad.group().get(filter)
 ad.group().add(options)
@@ -170,6 +171,7 @@ Creates a new user. Returns the created user object.
 * `email`: String
 * `title`: String
 * `location`: String
+* `objectClass`: String
 
 If not specified, the first and last name will be based on the `commonName`.
 
@@ -352,6 +354,20 @@ await ad.user('jsmith').remove();
 
 ```
 
+#### ad.user(userName).accountExpiresIn(expireDate)
+
+Sets a expiry date to a user OR set's the account to never expire
+
+##### expireDate:
+
+* A date wiht the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31``
+* You can also set it to ``false`` to set the user expiry date to NEVER
+
+```js
+await ad.user(userName).accountExpiresIn("2019-07-31 12:30:00")
+// => {success: true}
+
+```
 
 ### Group Methods
 
