@@ -130,6 +130,7 @@ ad.group(groupName).exists()
 ad.group(groupName).addUser(userName)
 ad.group(groupName).removeUser(userName)
 ad.group(groupName).remove()
+ad.group(groupName).users()
 
 ad.ou().get(filter)
 ad.ou().add(options)
