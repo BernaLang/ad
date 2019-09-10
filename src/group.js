@@ -10,6 +10,7 @@ const parseLocation = require('./util/parseLocation');
  *  addUserToGroup(userName, groupName)
  *  removeUserFromGroup(userName, groupName)
  *  removeGroup(groupName)
+ *  getUsers(groupName)
  */
 
 module.exports = {
@@ -136,6 +137,19 @@ module.exports = {
           return resolve(resp);
         })
         .catch(reject);
+    });
+  },
+
+  async getUsers(groupName) {
+    return new Promise((resolve, reject) => {
+      this._getGroupUsers(groupName).then(
+        res => {
+          resolve(res);
+        },
+        err => {
+          reject(err);
+        }
+      );
     });
   }
 };

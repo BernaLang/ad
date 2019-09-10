@@ -451,6 +451,16 @@ await ad.group('HR').remove();
 
 ```
 
+#### ad.group(groupName).users();
+
+Returns all users in a group.
+
+```js
+await ad.group('HR').users();
+// => [{ ... }, { ... }]
+
+```
+
 
 ### Organizational Unit (OU) Methods
 

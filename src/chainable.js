@@ -27,6 +27,7 @@
  *  ad.group(groupName).addUser(userName);
  *  ad.group(groupName).removeUser(userName);
  *  ad.group(groupName).remove();
+ *  ad.group(groupName).users();
  *
  *  ad.ou().get(opts);
  *  ad.ou().add(opts);
@@ -134,6 +135,9 @@ module.exports = {
       },
       remove: () => {
         return this.removeGroup(groupName);
+      },
+      users: () => {
+        return this.getUsers(groupName);
       }
     };
   },
