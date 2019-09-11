@@ -1,6 +1,8 @@
 const AD = require('../index.js');
 const config = require('./importConfig');
 
+const moment = require('moment');
+
 const ad = new AD(config).cache(true);
 
 beforeAll(async () => {
@@ -56,6 +58,17 @@ test('user().add({firstName, lastName}) should infer a commonName', async () => 
     });
     const user = await ad.user('test53').get();
     expect(user.cn.toLowerCase()).toBe('test 53');
+  } catch (err) {
+    expect(err).not.toBeDefined();
+  }
+});
+
+test('user(user).accountExpiresIn(date) should change expiry date', async () => {
+  try {
+    let result = await ad
+      .user('test52')
+      .accountExpiresIn(moment().format('YYYY-MM-DD HH:mm:ss'));
+    expect(result.success).toBe(true);
   } catch (err) {
     expect(err).not.toBeDefined();
   }
