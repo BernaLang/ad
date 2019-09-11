@@ -19,6 +19,7 @@
  *  ad.user(userName).unlock();
  *  ad.user(userName).remove();
  *  ad.user(userName).location();
+ *  ad.user(userName).accountExpiresIn(date)
  *
  *  ad.group().get(opts);
  *  ad.group().add();
@@ -171,6 +172,14 @@ module.exports = {
     return {
       get: opts => {
         return this.getAllOthers(opts);
+      },
+
+      fromADDate: date => {
+        return this.convertFromADDate(date);
+      },
+
+      toADDate: date => {
+        return this.convertToADDate(date);
       }
     };
   },
