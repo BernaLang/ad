@@ -130,7 +130,7 @@ ad.group(groupName).exists()
 ad.group(groupName).addUser(userName)
 ad.group(groupName).removeUser(userName)
 ad.group(groupName).remove()
-ad.group(groupName).users()
+ad.group(groupName).users(opts)
 
 ad.ou().get(filter)
 ad.ou().add(options)
@@ -452,13 +452,17 @@ await ad.group('HR').remove();
 
 ```
 
-#### ad.group(groupName).users();
+#### ad.group(groupName).users(opts);
 
 Returns all users in a group.
 
+##### opts:
+
+* Optional LDAP query string parameters to execute. { scope: '', filter: '', attributes: [ '', '', ... ], sizeLimit: 0, timelimit: 0 }
+
 ```js
-await ad.group('HR').users();
-// => [{ ... }, { ... }]
+await ad.group('HR').users({ attributes: ['sAMAccountName'] });
+// => [{ sAMAccountName: 'jsmith' }, { sAMAccountName: 'dthree' }]
 
 ```
 
