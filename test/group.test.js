@@ -1,5 +1,5 @@
 const AD = require('../index.js');
-const config = require('./importConfig');
+const config = require('./config.json');
 
 const ad = new AD(config).cache(true);
 
@@ -73,6 +73,15 @@ test('group(group).addUser(user) should add a user', async () => {
     });
   let result = await ad.user('Administrator').isMemberOf('Test Group 2');
   expect(result).toBe(true);
+});
+
+test('group(group).users() should return users in group.', async () => {
+  try {
+    let result = await ad.group('Test Group 2').users();
+    expect(results.length).toBeGreaterThan(0);
+  } catch (err) {
+    expect(err).not.toBeDefined();
+  }
 });
 
 test('group(group).removeUser(user) should remove a user', async () => {
