@@ -37,6 +37,9 @@
  *  ad.ou(ouName).remove();
  *
  *  ad.other().get(opts);
+ *  ad.other().fromADDate(date);
+ *  ad.other().toADDate(date);
+ *
  *  ad.all().get(opts);
  *  ad.find(searchString);
  */
