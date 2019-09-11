@@ -113,9 +113,14 @@ module.exports = {
     });
   },
 
-  async _getGroupUsers(groupName) {
+  /**
+   *
+   * @param {*} groupName
+   * @param {Object} [opts] Optional LDAP query string parameters to execute. { scope: '', filter: '', attributes: [ '', '', ... ], sizeLimit: 0, timelimit: 0 }
+   */
+  async _getGroupUsers(groupName, opts = {}) {
     return new Promise(async (resolve, reject) => {
-      this.ad.getUsersForGroup(groupName, (err, users) => {
+      this.ad.getUsersForGroup(opts, groupName, (err, users) => {
         if (err) {
           /* istanbul ignore next */
           return reject({ message: err.message });

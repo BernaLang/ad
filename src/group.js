@@ -140,9 +140,9 @@ module.exports = {
     });
   },
 
-  async getUsers(groupName) {
+  async getUsers(groupName, opts) {
     return new Promise((resolve, reject) => {
-      this._getGroupUsers(groupName).then(
+      this._getGroupUsers(groupName, opts).then(
         res => {
           resolve(res);
         },
