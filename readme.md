@@ -139,6 +139,9 @@ ad.ou(ouName).exists()
 ad.ou(ouName).remove()
 
 ad.other().get(filter)
+ad.other().toADDate(date);
+ad.other().fromADDate(date);
+
 ad.all().get(filter)
 ad.find(searchString)
 
@@ -361,7 +364,7 @@ Sets a expiry date to a user OR set's the account to never expire
 
 ##### expireDate:
 
-* A date wiht the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31``
+* A date with the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31``
 * You can also set it to ``false`` to set the user expiry date to NEVER
 
 ```js
@@ -539,6 +542,26 @@ Returns all objects that are not users or groups.
 ```js
 await ad.other().get();
 // => [{ ... }, { ... }];
+
+```
+
+#### ad.other().fromADDate(date)
+
+Convert a given AD date to a js date object
+
+```js
+ad.other().fromADDate(132127200000000000);
+// => 2019-09-11T00:00:00.000Z
+
+```
+
+#### ad.other().toADDate(date)
+
+Convert a date with the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31`` into a AD date (hours are ignored)
+
+```js
+ad.other().toADDate("2019-09-11 10:34:07");
+// => 132127200000000000
 
 ```
 
