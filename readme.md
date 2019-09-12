@@ -364,11 +364,11 @@ Sets a expiry date to a user OR set's the account to never expire
 
 ##### expireDate:
 
-* A date with the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31``
+* A date with the following formats: ``2019-07-31T12:30:00`` OR ``2019-07-31``
 * You can also set it to ``false`` to set the user expiry date to NEVER
 
 ```js
-await ad.user(userName).accountExpiresIn("2019-07-31 12:30:00")
+await ad.user(userName).accountExpiresIn("2019-07-31")
 // => {success: true}
 
 ```
@@ -557,10 +557,10 @@ ad.other().fromADDate(132127200000000000);
 
 #### ad.other().toADDate(date)
 
-Convert a date with the following formats: ``2019-07-31 12:30:00``, ``2019-07-31T12:30:00`` OR ``2019-07-31`` into a AD date (hours are ignored)
+Convert a date with the following formats: ``2019-07-31T12:30:00`` OR ``2019-07-31`` into a AD date
 
 ```js
-ad.other().toADDate("2019-09-11 10:34:07");
+ad.other().toADDate("2019-09-11");
 // => 132127200000000000
 
 ```

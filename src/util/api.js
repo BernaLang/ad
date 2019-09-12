@@ -106,7 +106,7 @@ module.exports = {
   },
   /**
    * Converts a given date into the AD Expiricy Date format (the number of 100 nanoseconds intervals from January 1, 1601)
-   * @param {*} Par - The date to be converted in YYYY-MM-DD HH:mm:ss OR YYYY-MM-DDTHH:mm:ss OR YYYY-MM-DD
+   * @param {*} Par - The date to be converted in YYYY-MM-DDTHH:mm:ss OR YYYY-MM-DD
    */
   convertDateToAD: Par => {
     if (Par.search(' ') > -1) {
@@ -146,7 +146,7 @@ module.exports = {
 
   /**
    * Converts a AD Expiricy Date format (the number of 100 nanoseconds intervals from January 1, 1601) to a js date
-   * @param {*} Par - The date to be converted in YYYY-MM-DD HH:mm:ss OR YYYY-MM-DDTHH:mm:ss OR YYYY-MM-DD
+   * @param {*} Par - The date to be converted in AD Expiricy Date format (the number of 100 nanoseconds intervals from January 1, 1601)
    */
   convertDateFromAD: Par => {
     var MSTimestamp = Par;
