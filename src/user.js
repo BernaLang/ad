@@ -7,6 +7,7 @@ const parseLocation = require('./util/parseLocation');
 /**
  *  Public user functions
  *  --------------------------
+ * 	getAllUsers(filter)
  *  findUser(userName, opts)
  *  addUser(opts)
  *  userExists(userName)
