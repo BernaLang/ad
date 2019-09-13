@@ -104,7 +104,7 @@ And you're off to the races.
 ## API
 
 ```js
-ad.user().get(filter)
+ad.user().get(opts)
 ad.user().add(options)
 ad.user(username).get(filter)
 ad.user(userName).exists()
@@ -189,13 +189,19 @@ await ad.user().add({
 
 ```
 
-#### ad.user(userName).get(filter)
+#### ad.user(userName).get(opts)
 
 Returns a user object. If no user is matched, returns `undefined`.
 
+   * @param {{ fields, filter, q, start, end, limit, page, sort, order, ignoreCache: Boolean, attributes: String }} opts - Options to parse results, if ignoreCache is true, it will not save/look in cache. attributes field will only be used if ignoreCache is set (fetch specific attributes)
+##### opts
+* Object with options
+  * ignoreCache?: Boolean - flag to ignore cached users and perform a get from AD 
+  * attributes?: [String] - Array of strings with the attributes that you want to return (only used if ignoreCache is true)
+
 ```js
-await ad.user('jsmith').get();
-// => {sAMAccountName: 'jsmith', email: 'jsmith@acme.co' ... }
+await ad.user('jsmith').get({ ignoreCache: true, { attributes: [ 'sAMAccountName', 'accountExpires', 'whenCreated' ] } });
+// => { sAMAccountName: 'jsmith', accountExpires: '9223372036854775807', whenCreated: '20190913102419.0Z', ... }
 
 ```
 

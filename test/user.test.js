@@ -3,7 +3,7 @@ const config = require('./importConfig');
 
 const moment = require('moment');
 
-const ad = new AD(config).cache(true);
+const ad = new AD(config);
 
 beforeAll(async () => {
   try {
@@ -146,6 +146,15 @@ test('user(user).get(opts) should take filter options', async () => {
   });
   expect(results.sAMAccountName).toBeUndefined();
   expect(results.givenName).not.toBeUndefined();
+});
+
+test('user(user).get(opts) should ignore cache and fetch user from AD with specific fields', async () => {
+  let results = await ad.user('test51').get({
+    ignoreCache: true,
+    attributes: ['sAMAccountName', 'accountExpires', 'whenCreated']
+  });
+  expect(results.email).toBeUndefined();
+  expect(results.sAMAccountName).not.toBeUndefined();
 });
 
 test('user(user).exists() should return true for a given user', async () => {

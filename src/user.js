@@ -255,31 +255,56 @@ module.exports = {
     });
   },
 
+  /**
+   *
+   * @param {*} userName - Username of the user to find
+   * @param {{ fields, filter, q, start, end, limit, page, sort, order, ignoreCache: Boolean, attributes: String }} opts - Options to parse results, if ignoreCache is true, it will not save/look in cache. attributes field will only be used if ignoreCache is set (fetch specific attributes)
+   */
   async findUser(userName, opts) {
     userName = String(userName || '');
     return new Promise(async (resolve, reject) => {
-      let cached = this._cache.get('users', userName);
-      if (cached) {
-        return resolve(api.processResults(opts, [cached])[0]);
+      const ignoreCache = opts && opts.ignoreCache ? opts.ignoreCache : false;
+      let attributes;
+      if (!ignoreCache) {
+        let cached = this._cache.get('users', userName);
+        if (cached) {
+          return resolve(api.processResults(opts, [cached])[0]);
+        }
+      } else {
+        if (
+          opts &&
+          Array.isArray(opts.attributes) &&
+          opts.attributes.length > 0
+        ) {
+          attributes = opts.attributes;
+          if (opts.attributes.indexOf('dn') === -1) attributes.push('dn');
+        }
       }
       const domain = this.config.domain;
+      console.log(domain);
       userName = userName.indexOf('@') > -1 ? userName.split('@')[0] : userName;
       const filter = `(|(userPrincipalName=${userName}@${domain})(sAMAccountName=${userName}))`;
       const params = {
         filter,
         includeMembership: ['all'],
-        includeDeleted: false
+        includeDeleted: false,
+        attributes: ignoreCache === true ? attributes : undefined
       };
       this.ad.find(params, (err, results) => {
         if (err) {
           /* istanbul ignore next */
           return reject(err);
         }
-        if (!results || !results.users || results.users.length < 1) {
+        if (
+          !results ||
+          !results.users ||
+          (results.users.length < 1 && !ignoreCache)
+        ) {
           this._cache.set('users', userName, {});
           return resolve({});
         }
-        this._cache.set('users', userName, results.users[0]);
+        if (!ignoreCache) this._cache.set('users', userName, results.users[0]);
+
         results.users = api.processResults(opts, results.users);
         return resolve(results.users[0]);
       });
