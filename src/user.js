@@ -21,6 +21,7 @@ const parseLocation = require('./util/parseLocation');
  *  getUserLocation(userName)
  *  unlockUser(userName)
  *  removeUser(userName)
+ *  changeExpiryDate(date)
  */
 
 module.exports = {
@@ -144,7 +145,7 @@ module.exports = {
       const domain = this.config.domain;
       let expireDate;
       if (expiresIn === false) {
-        expireDate = -1;
+        expireDate = 0;
       } else {
         expireDate = api.convertDateToAD(expiresIn);
       }
@@ -273,6 +274,7 @@ module.exports = {
       } else {
         if (
           opts &&
+          opts.attributes &&
           Array.isArray(opts.attributes) &&
           opts.attributes.length > 0
         ) {
@@ -295,14 +297,14 @@ module.exports = {
           return reject(err);
         }
         if (
-          !results ||
-          !results.users ||
-          (results.users.length < 1 && !ignoreCache)
+          (!results || !results.users || results.users.length < 1) &&
+          ignoreCache !== true
         ) {
           this._cache.set('users', userName, {});
           return resolve({});
         }
-        if (!ignoreCache) this._cache.set('users', userName, results.users[0]);
+        if (ignoreCache !== true)
+          this._cache.set('users', userName, results.users[0]);
 
         results.users = api.processResults(opts, results.users);
         return resolve(results.users[0]);
