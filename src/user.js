@@ -281,7 +281,6 @@ module.exports = {
         }
       }
       const domain = this.config.domain;
-      console.log(domain);
       userName = userName.indexOf('@') > -1 ? userName.split('@')[0] : userName;
       const filter = `(|(userPrincipalName=${userName}@${domain})(sAMAccountName=${userName}))`;
       const params = {
