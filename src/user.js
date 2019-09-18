@@ -296,11 +296,8 @@ module.exports = {
           /* istanbul ignore next */
           return reject(err);
         }
-        if (
-          (!results || !results.users || results.users.length < 1) &&
-          ignoreCache !== true
-        ) {
-          this._cache.set('users', userName, {});
+        if (!results || !results.users || results.users.length < 1) {
+          if (ignoreCache !== true) this._cache.set('users', userName, {});
           return resolve({});
         }
         if (ignoreCache !== true)
