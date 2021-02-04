@@ -1,5 +1,5 @@
 {
-  "name": "BernaLang/ad",
+  "name": "@bernalang/ad",
   "version": "0.5.0",
   "description": "Active Directory API for Node",
   "main": "index.js",
