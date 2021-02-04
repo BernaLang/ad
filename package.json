@@ -1,10 +1,11 @@
 {
-  "name": "ad",
+  "name": "BernaLang/ad",
   "version": "0.5.0",
   "description": "Active Directory API for Node",
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
+    "test": "exit 0",
     "tst": "jest"
   },
   "keywords": [
